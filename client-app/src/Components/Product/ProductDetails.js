@@ -15,7 +15,7 @@ export default function ProductDetails() {
             setError(null);
             try {
                 const response = await fetch
-                (`http://localhost:5156//product/${productId}//
+                (`http://localhost:3000//product/${productId}//
                 // `);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');

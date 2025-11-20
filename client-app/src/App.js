@@ -2,6 +2,7 @@ import './App.css';
 import Home from './components/Home';
 import Login from './components/Login';
 import About from './components/About';
+import ProductDetails from './Components/Product/ProductDetails';
 import Weather from './components/Weather';
 import Products from './components/Products';
 import RequireAuth from './components/RequireAuth';
