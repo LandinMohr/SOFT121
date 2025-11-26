@@ -1,11 +1,11 @@
 import './App.css';
-import Home from './components/Home';
-import Login from './components/Login';
-import About from './components/About';
+import Home from './Components/Home';
+import Login from './Components/Login';
+import About from './Components/About';
 import ProductDetails from './Components/Product/ProductDetails';
-import Weather from './components/Weather';
-import Products from './components/Products';
-import RequireAuth from './components/RequireAuth';
+import Weather from './Components/Weather';
+import Products from './Components/Product/Products';
+import RequireAuth from './Components/RequireAuth';
 import { BrowserRouter, Link, Route, Routes } from 'react-router';
 
 function App() {
@@ -29,10 +29,7 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route
-          path="/product/:productId"
-          element={<div>Product Details Page</div>}
-        />
+        <Route path="/product/:productId" element={<ProductDetails />} />
       </Routes>
     </BrowserRouter>
   );
