@@ -1,4 +1,5 @@
 import './App.css';
+import Signup from './src/Signup';
 import Home from './Components/Home';
 import Login from './Components/Login';
 import About from './Components/About';
@@ -6,19 +7,21 @@ import ProductDetails from './Components/Product/ProductDetails';
 import Weather from './Components/Weather';
 import Products from './Components/Product/Products';
 import RequireAuth from './Components/RequireAuth';
-import { BrowserRouter, Link, Route, Routes } from 'react-router';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
     <BrowserRouter>
       <nav>
         <Link to="/">Home</Link> | <Link to="/about">About</Link> |{' '}
-        <Link to="/login">Login</Link> | <Link to="/weather">Weather</Link> |{' '}
+        <Link to="/login">Login</Link> | <Link to="/signup">Sign Up</Link> |{' '}
+        <Link to="/weather">Weather</Link> |{' '}
         <Link to="/products">Products</Link>
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/about" element={<About />} />
         <Route path="/products" element={<Products />} />
         <Route
