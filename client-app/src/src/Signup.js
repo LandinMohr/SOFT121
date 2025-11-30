@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 function Signup() {
   const [form, setForm] = useState({
+    username: '',
     email: '',
     password: '',
     firstName: '',
@@ -58,7 +59,14 @@ function Signup() {
           onChange={handleChange}
           required
         />
-
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          value={form.username}
+          onChange={handleChange}
+          required
+        />
         <input
           type="text"
           name="lastName"
