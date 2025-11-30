@@ -31,10 +31,11 @@ namespace SOFT121.Controllers
                 {
                     conn.Open();
 
-                    string query = @"INSERT INTO dbo.Users (Email, PasswordHash, FirstName, LastName)
-                                     VALUES (@Email, @PasswordHash, @FirstName, @LastName)";
+                    string query = @"INSERT INTO dbo.Users (Username,Email, PasswordHash, FirstName, LastName)
+                                     VALUES (@Username, @Email, @PasswordHash, @FirstName, @LastName)";
 
                     SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Username", user.Username);
                     cmd.Parameters.AddWithValue("@Email", user.Email);
                     cmd.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
 
