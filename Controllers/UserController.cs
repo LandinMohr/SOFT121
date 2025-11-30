@@ -11,6 +11,7 @@ namespace SOFT121.Controllers
     public class UserController : ControllerBase
     {
         private readonly string _connectionString;
+
         public UserController(IConfiguration configuration)
         {
             var connStr = configuration.GetConnectionString("DefaultConnection");
@@ -21,28 +22,34 @@ namespace SOFT121.Controllers
             _connectionString = connStr;
         }
 
-        // POST api/user/register
         [HttpPost("register")]
         public IActionResult Register(User user)
         {
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            try
             {
-                conn.Open();
+                using (SqlConnection conn = new SqlConnection(_connectionString))
+                {
+                    conn.Open();
 
-                string query = @"INSERT INTO Users (Email, Password, FirstName, LastName)
-                                 VALUES (@Email, @Password, @FirstName, @LastName)";
+                    string query = @"INSERT INTO Users (Email, Password, FirstName, LastName)
+                                     VALUES (@Email, @Password, @FirstName, @LastName)";
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Email", user.Email);
+                    cmd.Parameters.AddWithValue("@Password", user.PasswordHash);
+                    cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", user.LastName);
 
-                cmd.Parameters.AddWithValue("@Email", user.Email);
-                cmd.Parameters.AddWithValue("@Password", user.PasswordHash);  // plain password for now (school assignment)
-                cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
-                cmd.Parameters.AddWithValue("@LastName", user.LastName);
+                    cmd.ExecuteNonQuery();
+                }
 
-                cmd.ExecuteNonQuery();
+                return Ok(new { message = "User registered successfully" });
             }
+            catch (Exception ex)
+            {
 
-            return Ok(new { message = "User registered successfully" });
+                return StatusCode(500, new { message = ex.Message });
+            }
         }
     }
 }

@@ -19,20 +19,26 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Match C# backend property names
+    const payload = {
+      email: form.email,
+      passwordHash: form.password, // backend expects PasswordHash
+      firstName: form.firstName,
+      lastName: form.lastName,
+    };
+
     try {
       const response = await fetch('http://localhost:5156/api/user/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
 
-      if (response.ok) {
-        setMessage('Account created successfully!');
-      } else {
-        setMessage('Error creating account.');
-      }
+      // Parse backend response
+      const data = await response.json();
+      setMessage(data.message || 'Error creating account.');
     } catch (error) {
       console.error(error);
       setMessage('Server error.');
