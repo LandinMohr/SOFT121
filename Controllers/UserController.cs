@@ -31,12 +31,13 @@ namespace SOFT121.Controllers
                 {
                     conn.Open();
 
-                    string query = @"INSERT INTO Users (Email, Password, FirstName, LastName)
-                                     VALUES (@Email, @Password, @FirstName, @LastName)";
+                    string query = @"INSERT INTO dbo.Users (Email, PasswordHash, FirstName, LastName)
+                                     VALUES (@Email, @PasswordHash, @FirstName, @LastName)";
 
                     SqlCommand cmd = new SqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@Email", user.Email);
-                    cmd.Parameters.AddWithValue("@Password", user.PasswordHash);
+                    cmd.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
+
                     cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
                     cmd.Parameters.AddWithValue("@LastName", user.LastName);
 
@@ -47,7 +48,6 @@ namespace SOFT121.Controllers
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, new { message = ex.Message });
             }
         }
