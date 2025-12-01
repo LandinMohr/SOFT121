@@ -27,20 +27,22 @@ namespace SOFT121.Controllers
         {
             try
             {
+                // Log incoming user for debugging
+                Console.WriteLine($"Registering user: Username='{user.Username}', Email='{user.Email}'");
+
                 using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
                     conn.Open();
 
-                    string query = @"INSERT INTO dbo.Users (Username,Email, PasswordHash, FirstName, LastName)
+                    string query = @"INSERT INTO dbo.Users (Username, Email, PasswordHash, FirstName, LastName)
                                      VALUES (@Username, @Email, @PasswordHash, @FirstName, @LastName)";
 
                     SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Username", user.Username);
-                    cmd.Parameters.AddWithValue("@Email", user.Email);
-                    cmd.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
-
-                    cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
-                    cmd.Parameters.AddWithValue("@LastName", user.LastName);
+                    cmd.Parameters.AddWithValue("@Username", user.Username ?? throw new ArgumentNullException(nameof(user.Username)));
+                    cmd.Parameters.AddWithValue("@Email", user.Email ?? throw new ArgumentNullException(nameof(user.Email)));
+                    cmd.Parameters.AddWithValue("@PasswordHash", user.PasswordHash ?? throw new ArgumentNullException(nameof(user.PasswordHash)));
+                    cmd.Parameters.AddWithValue("@FirstName", user.FirstName ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@LastName", user.LastName ?? string.Empty);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -49,6 +51,9 @@ namespace SOFT121.Controllers
             }
             catch (Exception ex)
             {
+                // Log full exception for debugging
+                Console.WriteLine("Register error: " + ex.ToString());
+
                 return StatusCode(500, new { message = ex.Message });
             }
         }

@@ -11,21 +11,20 @@ function Signup() {
 
   const [message, setMessage] = useState('');
 
-  // Update form values
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Submit to the backend
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Match C# backend property names
+    // Include username and match C# backend property names
     const payload = {
-      email: form.email,
-      passwordHash: form.password, // backend expects PasswordHash
-      firstName: form.firstName,
-      lastName: form.lastName,
+      Username: form.username,
+      Email: form.email,
+      PasswordHash: form.password, // backend expects PasswordHash
+      FirstName: form.firstName,
+      LastName: form.lastName,
     };
 
     try {
@@ -37,7 +36,6 @@ function Signup() {
         body: JSON.stringify(payload),
       });
 
-      // Parse backend response
       const data = await response.json();
       setMessage(data.message || 'Error creating account.');
     } catch (error) {
@@ -75,7 +73,6 @@ function Signup() {
           onChange={handleChange}
           required
         />
-
         <input
           type="email"
           name="email"
@@ -84,7 +81,6 @@ function Signup() {
           onChange={handleChange}
           required
         />
-
         <input
           type="password"
           name="password"
@@ -93,7 +89,6 @@ function Signup() {
           onChange={handleChange}
           required
         />
-
         <button type="submit">Sign Up</button>
       </form>
 
